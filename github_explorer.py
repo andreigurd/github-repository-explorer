@@ -57,9 +57,8 @@ def user_repos(user_name):
 
 
 # ask for user name and run get_user function
-#user_name = input(f'Enter GitHub username to lookup:\n')
-user_name = "andreigurd"
-#get_user(user_name)
+user_name = input(f'Enter GitHub username to lookup:\n')
+get_user(user_name)
 user_repos(user_name)
 
 
