@@ -14,7 +14,7 @@ def get_user(user_name):
         print("Bio:", data['bio'])
         print("Location:", data['location'])
         print("Public Repos:", data['public_repos'])
-        #print(data.keys())    
+            
             
     elif response.status_code == 404:
         print(f"User_Name '{user_name}' not found")
@@ -29,16 +29,14 @@ def user_repos(user_name):
     url = f"https://api.github.com/users/{user_name}/repos?sort=updated&per_page=5"
 
     response = requests.get(url)
-
-    # data is just dictionaries no lists.
-
+    
     print("\nUser_Repositories Status Code:", response.status_code)
 
     if response.status_code == 200:
         print("User_Repositories Status Code:", response.status_code)
     # Get specific data from the JSON
         data = response.json()     
-        print(data)
+        ##print(data)
     elif response.status_code == 404:
         print(f"Repositories for '{user_name}' not found")
         return None        
@@ -47,6 +45,14 @@ def user_repos(user_name):
         print(f'Error: {response.status_code}')
         return None
 
+    # Lists their 5 most recent repositories
+    # use get with alternate value incase of Null
+    print("Displaying 5 most recent repositories.") 
+    for repo in data[:5]:        
+        print("\nName:", repo['name'])
+        print("Description:", repo['description'])
+        print("Stars:", repo['stargazers_count'])
+        print("Language:", repo['language'])
 
 
 # ask for user name and run get_user function
