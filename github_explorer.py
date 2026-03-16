@@ -7,17 +7,20 @@ def get_user(user_name):
 
     # Check if successful
     if response.status_code == 200:
-        print("User_Name Status Code:", response.status_code)
+        print("User Status Code:", response.status_code)
     # Get specific data from the JSON
+    # .get returns value if key exists else None
+    # or "N/A" is value given if .get is None or blank.
         data = response.json()       
-        print("Name:", data['name'])
-        print("Bio:", data['bio'])
-        print("Location:", data['location'])
-        print("Public Repos:", data['public_repos'])
+        print("Name:", data.get('name') or "N/A")
+        print("Bio:", data.get('bio') or "N/A")
+        print("Location:", data.get('location') or "N/A")
+        print("Public Repos:", data.get('public_repos', "N/A"))
+        # .get(key, default) wont replace 0 with N/A
             
             
     elif response.status_code == 404:
-        print(f"User_Name '{user_name}' not found")
+        print(f"User '{user_name}' not found")
         return None
     else:
         print(f'Error: {response.status_code}')
@@ -28,10 +31,8 @@ def get_user(user_name):
 def user_repos(user_name):
     url = f"https://api.github.com/users/{user_name}/repos?sort=updated&per_page=5"
 
-    response = requests.get(url)
+    response = requests.get(url)    
     
-    print("\nUser_Repositories Status Code:", response.status_code)
-
     if response.status_code == 200:
         print("User_Repositories Status Code:", response.status_code)
     # Get specific data from the JSON
@@ -46,13 +47,13 @@ def user_repos(user_name):
         return None
 
     # Lists their 5 most recent repositories
-    # use get with alternate value incase of Null
+    
     print("Displaying 5 most recent repositories.") 
     for repo in data[:5]:        
-        print("\nName:", repo['name'])
-        print("Description:", repo['description'])
-        print("Stars:", repo['stargazers_count'])
-        print("Language:", repo['language'])
+        print("\nName:", repo.get('name') or "N/A")
+        print("Description:", repo.get('description') or "N/A")
+        print("Stars:", repo.get('stargazers_count', "N/A"))
+        print("Language:", repo.get('language') or "N/A")
 
 
 # ask for user name and run get_user function
